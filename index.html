@@ -5,29 +5,74 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./assets/css/main.css" />
-    <script type="text/javascript" src="./assets/js/words.js"></script>
-    <script type="text/javascript" src="./assets/js/app.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <title>Wordle Hints</title>
   </head>
   <body>
-    <div id="board-container">
-      <div id="board" style="width: 237px; height: 282px">
-        <div length="5">
-          <div class="row">
-            <div>
-                <div id="letter-0" class="tile" data-state="empty" data-animation="idle" onclick="reveal(0)"></div>
-            </div>
-            <div>
-                <div id="letter-1" class="tile" data-state="empty" data-animation="idle" onclick="reveal(1)"></div>
-            </div>
-            <div>
-                <div id="letter-2" class="tile" data-state="empty" data-animation="idle" onclick="reveal(2)"></div>
-            </div>
-            <div>
-                <div id="letter-3" class="tile" data-state="empty" data-animation="idle" onclick="reveal(3)"></div>
-            </div>
-            <div>
-                <div id="letter-4" class="tile" data-state="empty" data-animation="idle" onclick="reveal(4)"></div>
+    <script type="text/javascript" src="./assets/js/words.js"></script>
+    <script type="text/javascript" src="./assets/js/app.js"></script>
+    <header>
+      <div class="menu-left">
+        <button id="help-button" class="icon">
+          <i class="fa fa-question-circle"></i>
+        </button>
+      </div>
+      <div class="title">Wordle Hints</div>
+      <div class="padding"></div>
+    </header>
+    <div id="game">
+      <div id="board-container">
+        <div id="board" style="width: 300px; height: 364px">
+          <div length="5">
+            <div class="row">
+              <div>
+                <div
+                  id="letter-0"
+                  class="tile"
+                  data-state="empty"
+                  data-animation="idle"
+                  onclick="reveal(0)"
+                ></div>
+              </div>
+              <div>
+                <div
+                  id="letter-1"
+                  class="tile"
+                  data-state="empty"
+                  data-animation="idle"
+                  onclick="reveal(1)"
+                ></div>
+              </div>
+              <div>
+                <div
+                  id="letter-2"
+                  class="tile"
+                  data-state="empty"
+                  data-animation="idle"
+                  onclick="reveal(2)"
+                ></div>
+              </div>
+              <div>
+                <div
+                  id="letter-3"
+                  class="tile"
+                  data-state="empty"
+                  data-animation="idle"
+                  onclick="reveal(3)"
+                ></div>
+              </div>
+              <div>
+                <div
+                  id="letter-4"
+                  class="tile"
+                  data-state="empty"
+                  data-animation="idle"
+                  onclick="reveal(4)"
+                ></div>
+              </div>
             </div>
           </div>
         </div>
