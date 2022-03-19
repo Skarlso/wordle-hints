@@ -1,0 +1,1 @@
+# TODO: create a script which downloads the words and converts them into a Javascript value.
