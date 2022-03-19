@@ -14,75 +14,79 @@
   </head>
   <body>
     <header>
-      <div class="menu-left">
+      <div class="padding-left">
         <button id="help-button" class="icon">
           <i class="fa fa-question-circle"></i>
         </button>
       </div>
       <div class="title">Wordle Hints</div>
-      <div class="padding"></div>
+      <div class="padding-right"></div>
     </header>
     <!-- The Modal -->
     <div id="help-modal" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p>Welcome to Wordle Hints. Click the letter which you would like to release for a bit of help...</p>
+        <p>
+          Welcome to Wordle Hints. Click the letter which you would like to
+          release for a bit of help...
+        </p>
         <p>Or click, "Synonyms" to get a tip of what the word stands for.</p>
-        <p>Please don't spoil the fun for others. This site is here to help those who are stuck or are non-native English speakers.</p>
+        <p>
+          Please don't spoil the fun for others. This site is here to help those
+          who are stuck or are non-native English speakers.
+        </p>
       </div>
     </div>
     <script type="text/javascript" src="./assets/js/app.js"></script>
-    <div id="game">
-      <div id="board-container">
-        <div id="board" style="width: 300px; height: 364px">
-          <div length="5">
-            <div class="row">
-              <div>
-                <div
-                  id="letter-0"
-                  class="tile"
-                  data-state="empty"
-                  data-animation="idle"
-                  onclick="reveal(0)"
-                ></div>
-              </div>
-              <div>
-                <div
-                  id="letter-1"
-                  class="tile"
-                  data-state="empty"
-                  data-animation="idle"
-                  onclick="reveal(1)"
-                ></div>
-              </div>
-              <div>
-                <div
-                  id="letter-2"
-                  class="tile"
-                  data-state="empty"
-                  data-animation="idle"
-                  onclick="reveal(2)"
-                ></div>
-              </div>
-              <div>
-                <div
-                  id="letter-3"
-                  class="tile"
-                  data-state="empty"
-                  data-animation="idle"
-                  onclick="reveal(3)"
-                ></div>
-              </div>
-              <div>
-                <div
-                  id="letter-4"
-                  class="tile"
-                  data-state="empty"
-                  data-animation="idle"
-                  onclick="reveal(4)"
-                ></div>
-              </div>
+    <div id="board-container">
+      <div id="board" style="width: 300px; height: 364px">
+        <div>
+          <div class="row">
+            <div>
+              <div
+                id="letter-0"
+                class="tile"
+                data-state="empty"
+                data-animation="idle"
+                onclick="reveal(0)"
+              ></div>
+            </div>
+            <div>
+              <div
+                id="letter-1"
+                class="tile"
+                data-state="empty"
+                data-animation="idle"
+                onclick="reveal(1)"
+              ></div>
+            </div>
+            <div>
+              <div
+                id="letter-2"
+                class="tile"
+                data-state="empty"
+                data-animation="idle"
+                onclick="reveal(2)"
+              ></div>
+            </div>
+            <div>
+              <div
+                id="letter-3"
+                class="tile"
+                data-state="empty"
+                data-animation="idle"
+                onclick="reveal(3)"
+              ></div>
+            </div>
+            <div>
+              <div
+                id="letter-4"
+                class="tile"
+                data-state="empty"
+                data-animation="idle"
+                onclick="reveal(4)"
+              ></div>
             </div>
           </div>
         </div>
