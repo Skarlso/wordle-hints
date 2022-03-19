@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="text/javascript" src="./assets/js/words.js"></script>
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link
       rel="stylesheet"
@@ -12,8 +13,6 @@
     <title>Wordle Hints</title>
   </head>
   <body>
-    <script type="text/javascript" src="./assets/js/words.js"></script>
-    <script type="text/javascript" src="./assets/js/app.js"></script>
     <header>
       <div class="menu-left">
         <button id="help-button" class="icon">
@@ -23,6 +22,17 @@
       <div class="title">Wordle Hints</div>
       <div class="padding"></div>
     </header>
+    <!-- The Modal -->
+    <div id="help-modal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Welcome to Wordle Hints. Click the letter which you would like to release for a bit of help...</p>
+        <p>Or click, "Synonyms" to get a tip of what the word stands for.</p>
+        <p>Please don't spoil the fun for others. This site is here to help those who are stuck or are non-native English speakers.</p>
+      </div>
+    </div>
+    <script type="text/javascript" src="./assets/js/app.js"></script>
     <div id="game">
       <div id="board-container">
         <div id="board" style="width: 300px; height: 364px">
