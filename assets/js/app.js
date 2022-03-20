@@ -54,30 +54,11 @@ function reveal(index) {
   div.setAttribute("data-animation", "pop");
 }
 
-const explanation = `https://api.dictionaryapi.dev/api/v2/entries/en/${currentWord}`;
-const synonyms = `https://api.datamuse.com/words?ml=${currentWord}`;
-
-function fetchURL(url) {
-  return fetch(url)
-  .then((response) => {
-    return response.json();
-  }).catch(error => {
-    console.log("failed to fetch url: ", error);
-  })
-}
-
-
 // reveal the fetched hints for the word.
-async function revealHints() {
+function revealHints() {
   p = document.getElementById("hints-content");
-  // make sure we only fetch once after button click and then only toggle hide.
-  if (p.innerHTML == "") {
-    const ex = await fetchURL(explanation)
-    const syn = await fetchURL(synonyms)
-    p = document.getElementById("hints-content");
-    p.innerHTML += "<p>" + ex[0].meanings[0].definitions[0].definition + "</p>";
-    p.innerHTML += "<p>synonym: " + syn[0].word + "</p>";
-  }
+  p.innerHTML = "<p><b>Explanation</b>: " + hints[currentWord].explanation + "</p>";
+  p.innerHTML += "<p><b>Synonym</b>: " + hints[currentWord].synonym + "</p>";
 
   const targetDiv = document.getElementById("hints-show");
   if (targetDiv.style.display !== "none") {

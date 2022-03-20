@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -11,14 +10,14 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 
 	"golang.org/x/sync/errgroup"
-	"golang.org/x/sync/semaphore"
 )
 
 type Hint struct {
-	Synonyms    []string `json:"synonyms"`
-	Explanation string   `json:"explanation"`
+	Synonym     string `json:"synonym"`
+	Explanation string `json:"explanation"`
 }
 
 func main() {
@@ -35,50 +34,86 @@ func main() {
 	if err := json.Unmarshal(content, &words); err != nil {
 		log.Fatal(err)
 	}
-	words = words[:5]
+	// words = words[:500]
 	// {"word": {"synonyms": [], "explanation": "asdf"}, "anotherword": {}}
 	hints := make(map[string]*Hint)
 
-	g := new(errgroup.Group)
-	sem := semaphore.NewWeighted(5)
-
-	for _, s := range words {
-		if err := sem.Acquire(context.Background(), 1); err != nil {
-			log.Fatal(err)
-		}
-
-		word := s
+	var word string
+	for len(words) > 0 {
+		word, words = words[0], words[1:]
+		fmt.Println("at word: ", word)
+		hint := &Hint{}
+		entryURL := fmt.Sprintf("https://api.dictionaryapi.dev/api/v2/entries/en/%s", word)
+		synURL := fmt.Sprintf("https://api.datamuse.com/words?ml=%s", word)
+		g := new(errgroup.Group)
 		g.Go(func() error {
-			defer sem.Release(1)
-
-			resp, err := http.Get(fmt.Sprintf("https://api.dictionaryapi.dev/api/v2/entries/en/%s", word))
+			resp, err := http.Get(entryURL)
 			if err != nil {
-				if resp.StatusCode == 429 {
-					fmt.Println("throttled for word: ", word)
-					return nil
-				}
+				fmt.Println("failed entry for word: ", word)
 				return err
 			}
 			defer resp.Body.Close()
+			if resp.StatusCode == 429 {
+				return errors.New("retry")
+			}
 			body, err := io.ReadAll(resp.Body)
 			if err != nil {
 				return err
 			}
 			m := make([]interface{}, 0)
 			if err := json.Unmarshal(body, &m); err != nil {
-				return err
+				fmt.Println("entry failed to unmarshal")
+				fmt.Println("body: ", string(body))
+				fmt.Println("word: ", word)
+				hint.Explanation = "no explanation, sorry"
+				return nil
 			}
 			if len(m) == 0 {
-				return errors.New("explanation is empty")
+				return err
 			}
-			hint := &Hint{}
 			hint.Explanation = m[0].(map[string]interface{})["meanings"].([]interface{})[0].(map[string]interface{})["definitions"].([]interface{})[0].(map[string]interface{})["definition"].(string)
-			hints[word] = hint
 			return nil
 		})
-	}
-	if err := g.Wait(); err != nil {
-		log.Fatal(err)
+		g.Go(func() error {
+			resp, err := http.Get(synURL)
+			if err != nil {
+				fmt.Println("failed syn for word: ", word)
+				return err
+			}
+			defer resp.Body.Close()
+			if resp.StatusCode == 429 {
+				return errors.New("retry")
+			}
+			body, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return err
+			}
+			m := make([]interface{}, 0)
+			if err := json.Unmarshal(body, &m); err != nil {
+				fmt.Println("syn failed to unmarshal")
+				fmt.Println("body: ", string(body))
+				fmt.Println("word: ", word)
+				hint.Synonym = "no synonym, sorry"
+				return nil
+			}
+			if len(m) == 0 {
+				return err
+			}
+			hint.Synonym = m[0].(map[string]interface{})["word"].(string)
+			return nil
+		})
+
+		if err := g.Wait(); err != nil {
+			if err.Error() == "retry" {
+				time.Sleep(5 * time.Minute)
+				// re-add the word at the end to retry
+				words = append(words, word)
+				continue
+			}
+			log.Fatal(err)
+		}
+
+		hints[word] = hint
 	}
 
 	output, err := json.Marshal(hints)
