@@ -41,8 +41,19 @@
     <script type="text/javascript" src="./assets/js/app.js"></script>
     <div id="board-container">
       <div id="board" style="width: 300px; height: 364px">
-          <div class="row"></div>
+        <div class="row"></div>
       </div>
+    </div>
+    <div class="hints-container">
+      <p>
+        <p>Synonyms and explanation of the word</p>
+        <p><button id="reveal" onclick="revealHints()">Reveal</button></p>
+        <p>
+          <div id="hints-show" style="display: none;">
+            <p id="hints-content"></p>
+          </div>
+        </p>
+      </p>
     </div>
   </body>
 </html>
